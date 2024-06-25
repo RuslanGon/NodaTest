@@ -1,6 +1,9 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const startServer = () => {
 
@@ -30,7 +33,8 @@ export const startServer = () => {
         res.status(500).send(error.message);
     });
 
-    app.listen(3000, () => {
-        console.log('Server is running on port 3000');
+    const PORT = process.env.PORT;
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
     });
 };
