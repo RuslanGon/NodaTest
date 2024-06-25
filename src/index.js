@@ -3,7 +3,9 @@ import pino from 'pino-http';
 
 const app = express();
 
-app.use(pino());
+app.use(pino({
+    transport: 'pino-pretty'
+}));
 
 app.use((req, res, next) => {
 req.someId = Math.random();
