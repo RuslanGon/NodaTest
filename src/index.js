@@ -12,11 +12,13 @@ app.use(pino({
 
 app.use(cors());
 
-app.get('/', (req, res, next) => {
+
+
+app.get('/', (req, res) => {
     res.send('Hello Ruslan Goncharenko !!!');
 });
 
-app.use('*', (req, res, next) => {
+app.use('*', (req, res) => {
     res.status(404).send('Oops, not found');
 });
 
