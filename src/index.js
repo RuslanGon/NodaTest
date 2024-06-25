@@ -1,4 +1,5 @@
 import express from 'express';
+import pino from 'pino-http';
 
 const app = express();
 
@@ -9,7 +10,7 @@ next();
 
 app.get('/', (req, res, next) => {
     console.log(req.someId);
-res.send('Hello Ruslan Goncharenko');
+res.send('Hello Ruslan Goncharenko !!!');
 });
 
 app.listen(3000, () => {
