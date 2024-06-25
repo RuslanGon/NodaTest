@@ -2,7 +2,6 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 
-
 export const startServer = () => {
 
     const app = express();
@@ -19,6 +18,11 @@ export const startServer = () => {
         res.send('Hello Ruslan Goncharenko !!!');
     });
 
+    app.get('/error', (req, res, next) => {
+        next(new Error('some error here'));
+    });
+
+
     app.use('*', (req, res) => {
         res.status(404).send('Oops, not found');
     });
@@ -31,4 +35,6 @@ export const startServer = () => {
         console.log('Server is running on port 3000');
     });
 };
+
+
 
