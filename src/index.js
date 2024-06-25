@@ -1,3 +1,12 @@
-const message = 'Helloooovfrvr world';
+import express from 'express';
 
-console.log(message);
+const app = express();
+
+app.get('/', (req, res, next) => {
+res.send('Hello word');
+});
+
+app.listen(3000, () => {
+    console.log('Server is running on port 3001');
+});
+
