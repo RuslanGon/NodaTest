@@ -2,8 +2,14 @@ import express from 'express';
 
 const app = express();
 
+app.use((req, res, next) => {
+req.someId = Math.random();
+next();
+});
+
 app.get('/', (req, res, next) => {
-res.send('Hello Ruslan Goncharenko');
+    console.log(req.someId);
+res.send(req.someId.toString());
 });
 
 app.listen(3000, () => {
