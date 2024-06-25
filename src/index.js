@@ -9,7 +9,7 @@ next();
 
 app.get('/', (req, res, next) => {
     console.log(req.someId);
-res.send(req.someId.toString());
+res.send('Hello Ruslan Goncharenko');
 });
 
 app.listen(3000, () => {
