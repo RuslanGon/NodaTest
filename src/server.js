@@ -25,7 +25,7 @@ export const startServer = () => {
         next(new Error('some error here'));
     });
 
-    app.use('*', (req, res) => {
+    app.use((req, res) => {
         res.status(404).send('Oops, not found');
     });
 
