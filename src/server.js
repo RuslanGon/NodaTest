@@ -29,6 +29,7 @@ export const startServer = () => {
         res.status(404).send('Oops, not found');
     });
 
+
     app.use((error, req, res, next) => {
         res.status(500).send(error.message);
     });
