@@ -25,6 +25,7 @@ app.get('/students', async (req, res) => {
 app.get('/students/:studentId', async (req, res) => {
   const id = req.params.studentId;
   const student = await getStudentById();
+
   if (!student) {
     res.status(404).json({
       status: 404,
@@ -32,6 +33,7 @@ app.get('/students/:studentId', async (req, res) => {
       data: student,
     });
   }
+
   res.json({
     status: 200,
     message: `get one student by id ${id}`,
