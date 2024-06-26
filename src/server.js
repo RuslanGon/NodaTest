@@ -4,6 +4,7 @@ import { env } from './utils/env.js';
 import { ENV_VARS } from './constants.js';
 import { notFaundMiddleware } from './middlewars/notFaundMiddleware.js';
 import { errorMiddleware } from './middlewars/errorMiddleware.js';
+import { getAllStudents, getStudentById } from './services/students.js';
 
 
 
@@ -12,12 +13,22 @@ const app = express();
 
 app.use(cors());
 
-app.get('/students', (req, res, next) => {
-
+app.get('/students', async (req, res) => {
+  const students = await getAllStudents();
+  res.json({
+    status: 200,
+    message: 'get all students',
+    data: students
+  });
 });
 
-app.get('/students/studentId', (req, res, next) => {
-
+app.get('/students/:studentId/id', async (req, res) => {
+const student = await getStudentById();
+res.json({
+  status: 200,
+  message: 'get one student by id',
+  data: student
+});
 });
 
 
