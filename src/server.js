@@ -22,13 +22,21 @@ app.get('/students', async (req, res) => {
   });
 });
 
-app.get('/students/:studentId/id', async (req, res) => {
-const student = await getStudentById();
-res.json({
-  status: 200,
-  message: 'get one student by id',
-  data: student
-});
+app.get('/students/:studentId', async (req, res) => {
+  const id = req.params.studentId;
+  const student = await getStudentById();
+  if (!student) {
+    res.status(404).json({
+      status: 404,
+      message: `get one student by id ${id} not faund`,
+      data: student,
+    });
+  }
+  res.json({
+    status: 200,
+    message: `get one student by id ${id}`,
+    data: student,
+  });
 });
 
 
