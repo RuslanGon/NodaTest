@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { env } from './utils/env.js';
-import { ENV_VARS } from './constants.js';
+import { ENV_VARS } from './constants/index.js';
 import { notFaundMiddleware } from './middlewars/notFaundMiddleware.js';
 import { errorMiddleware } from './middlewars/errorMiddleware.js';
 import { getAllStudents, getStudentById } from './services/students.js';
