@@ -8,14 +8,12 @@ import { errorMiddleware } from './middlewars/errorMiddleware.js';
 import { getAllStudents, getStudentById } from './services/students.js';
 
 
-
-
 const app = express();
 
 app.use(
   pino({
     transport: {
-      target: 'pino-http',
+      target: 'pino-pretty',
     },
   }),
 );
