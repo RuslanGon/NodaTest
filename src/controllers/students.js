@@ -5,13 +5,13 @@ export const getStudentsController = async (req, res) => {
     res.json({
       status: 200,
       message: 'get all students',
-      data: students
+      data: students,
     });
-  };
+};
 
 export const getStudentByIdController = async (req, res) => {
     const id = req.params.studentId;
-    const student = await getStudentById();
+    const student = await getStudentById(id);
 
     if (!student) {
       res.status(404).json({
