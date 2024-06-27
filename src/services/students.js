@@ -10,7 +10,7 @@ return await Student.find({});
 export const getStudentById = async (id) => {
 const student = await Student.findById(id);
 if (!student) {
-    throw createHttpError('404', 'Student not faund!!!');
+    throw createHttpError(404, 'Student not faund!!!');
   }
   return student;
 };
