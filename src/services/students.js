@@ -7,5 +7,9 @@ return await Student.find({});
 
 
 export const getStudentById = async (id) => {
-return await Student.findById(id);
+const student = await Student.findById(id);
+if (!student) {
+    throw new Error('Student was not faund');
+  }
+  return student;
 };
