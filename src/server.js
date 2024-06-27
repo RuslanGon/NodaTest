@@ -5,7 +5,7 @@ import { env } from './utils/env.js';
 import { ENV_VARS } from './constants/index.js';
 import { notFaundMiddleware } from './middlewars/notFaundMiddleware.js';
 import { errorMiddleware } from './middlewars/errorMiddleware.js';
-import { getAllStudents, getStudentById } from './services/students.js';
+import studentsRouter from './routers/students.js';
 
 
 const app = express();
@@ -20,33 +20,9 @@ app.use(
 
 app.use(cors());
 
-app.get('/students', async (req, res) => {
-  const students = await getAllStudents();
-  res.json({
-    status: 200,
-    message: 'get all students',
-    data: students
-  });
-});
 
-app.get('/students/:studentId', async (req, res) => {
-  const id = req.params.studentId;
-  const student = await getStudentById();
 
-  if (!student) {
-    res.status(404).json({
-      status: 404,
-      message: `get one student by id ${id} not faund`,
-      data: student,
-    });
-  }
-
-  res.json({
-    status: 200,
-    message: `get one student by id ${id}`,
-    data: student,
-  });
-});
+app.use(studentsRouter);
 
 
 app.use(notFaundMiddleware);
