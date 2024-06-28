@@ -18,4 +18,8 @@ export const createStudent = async (payload) => {
   const student = await Student.create(payload);
 
     return student;
-  };
+};
+
+export const deleteStudentById = async (studentId) => {
+await Student.findByIdAndDelete(studentId);
+};
