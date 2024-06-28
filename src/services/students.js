@@ -24,7 +24,15 @@ export const deleteStudentById = async (studentId) => {
 await Student.findByIdAndDelete(studentId);
 };
 
-export const upsertStudent = async (id, payload) => {
-  const student = await Student.findByIdAndUpdate( id, payload, {new: true});
+export const upsertStudent = async (id, payload, options= {}) => {
+  const student = await Student.findByIdAndUpdate(id, payload, {
+    new: true,
+    includeResultMetadata: true,
+    ...options,
+  });
+
+  if (!student) {
+    throw createHttpError(404, 'Student not faund!!!');
+  }
   return student;
 };
