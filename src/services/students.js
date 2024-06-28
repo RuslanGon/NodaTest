@@ -36,6 +36,6 @@ export const upsertStudent = async (id, payload, options= {}) => {
   }
   return{
     student: rawResult.value,
-    isNew: rawResult.lastErrorObject.upserted
+    isNew: Boolean(rawResult.lastErrorObject.upserted)
   } ;
 };
