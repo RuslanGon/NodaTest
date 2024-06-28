@@ -31,8 +31,11 @@ export const upsertStudent = async (id, payload, options= {}) => {
     ...options,
   });
 
-  if (!rawResult) {
+  if (!rawResult && rawResult.value) {
     throw createHttpError(404, 'Student not faund!!!');
   }
-  return rawResult;
+  return{
+    student: rawResult.value,
+    isNew: rawResult.lastErrorObject.upserted
+  } ;
 };
