@@ -33,6 +33,6 @@ export const getStudentByIdController = async (req, res) => {
   export const deleteStudentByIdController = async (req, res) => {
     const id = req.params.studentId;
     await deleteStudentById(id);
-    res.status(204);
+    res.status(204).send();
   };
 
