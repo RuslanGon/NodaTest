@@ -14,3 +14,9 @@ if (!student) {
   }
   return student;
 };
+
+export const createStudent = async (payload) => {
+  const student = await Student.create(payload);
+
+    return student;
+  };
