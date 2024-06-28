@@ -31,11 +31,11 @@ export const upsertStudent = async (id, payload, options= {}) => {
     ...options,
   });
 
-  if (!rawResult && rawResult.value) {
+  if (!rawResult || !rawResult.value) {
     throw createHttpError(404, 'Student not faund!!!');
   }
   return{
     student: rawResult.value,
-    isNew: Boolean(rawResult.lastErrorObject.upserted)
+    isNew: !rawResult?.lastErrorObject?.updatedExisting
   } ;
 };
