@@ -16,5 +16,4 @@ studentsRouter.patch('/students/:studentId', ctrlWrapper(patchStudentController)
 
 studentsRouter.put('/students/:studentId', ctrlWrapper(putStudentController) );
 
-
 export default studentsRouter;
