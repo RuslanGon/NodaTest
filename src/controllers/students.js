@@ -1,4 +1,4 @@
-import { createStudent, deleteStudentById, getAllStudents, getStudentById } from "../services/students.js";
+import { createStudent, deleteStudentById, getAllStudents, getStudentById, upsertStudent } from "../services/students.js";
 
 export const getStudentsController = async (req, res) => {
     const students = await getAllStudents();
@@ -23,7 +23,7 @@ export const getStudentByIdController = async (req, res) => {
     const {body} = req;
     const student = await createStudent(body);
     res.status(201).json({
-      status: 200,
+      status: 201,
       message: `get one create student`,
       data: student,
     });
@@ -34,5 +34,19 @@ export const getStudentByIdController = async (req, res) => {
     const id = req.params.studentId;
     await deleteStudentById(id);
     res.status(204).send();
+  };
+
+
+
+  export const patchStudentController = async (req, res) => {
+    const {body} = req;
+    const {studentId} = req.params;
+    const student = await upsertStudent(body, studentId);
+    res.status(200).json({
+      status: 200,
+      message: `get patched student`,
+      data: student,
+    });
+
   };
 
