@@ -20,10 +20,7 @@ app.use(
 
 app.use(cors());
 
-
-
 app.use(studentsRouter);
-
 
 app.use(notFaundMiddleware);
 app.use(errorMiddleware);
