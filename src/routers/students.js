@@ -11,9 +11,9 @@ studentsRouter.get('/students/:studentId', validateMongoId, ctrlWrapper(getStude
 
 studentsRouter.post('/students', ctrlWrapper(createStudentController) );
 
-studentsRouter.delete('/students/:studentId', ctrlWrapper(deleteStudentByIdController) );
+studentsRouter.delete('/students/:studentId',validateMongoId, ctrlWrapper(deleteStudentByIdController) );
 
-studentsRouter.patch('/students/:studentId', ctrlWrapper(patchStudentController) );
+studentsRouter.patch('/students/:studentId', validateMongoId,  ctrlWrapper(patchStudentController) );
 
 studentsRouter.put('/students/:studentId',validateMongoId, ctrlWrapper(putStudentController) );
 
