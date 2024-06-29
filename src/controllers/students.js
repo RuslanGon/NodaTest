@@ -1,4 +1,6 @@
+import { Types } from "mongoose";
 import { createStudent, deleteStudentById, getAllStudents, getStudentById, upsertStudent } from "../services/students.js";
+import createHttpError from "http-errors";
 
 export const getStudentsController = async (req, res) => {
     const students = await getAllStudents();
@@ -11,6 +13,11 @@ export const getStudentsController = async (req, res) => {
 
 export const getStudentByIdController = async (req, res) => {
     const id = req.params.studentId;
+
+    if(Types.ObjectId.isValid(id)){
+return next(createHttpError(400, 'Invalid Id'));
+    }
+
     const student = await getStudentById(id);
     res.json({
       status: 200,
