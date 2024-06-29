@@ -1,20 +1,44 @@
 import { Router } from 'express';
-import { createStudentController, deleteStudentByIdController, getStudentByIdController, getStudentsController, patchStudentController, putStudentController } from '../controllers/students.js';
+import {
+  createStudentController,
+  deleteStudentByIdController,
+  getStudentByIdController,
+  getStudentsController,
+  patchStudentController,
+  putStudentController,
+} from '../controllers/students.js';
 import { ctrlWrapper } from '../middlewars/ctrlWrapper.js';
 import { validateMongoId } from '../middlewars/validateMongoId.js';
 
 const studentsRouter = Router();
 
-studentsRouter.get('/students', validateMongoId, ctrlWrapper(getStudentsController) );
+studentsRouter.use('/students/:studentId', validateMongoId('studentId'),);
 
-studentsRouter.get('/students/:studentId', validateMongoId, ctrlWrapper(getStudentByIdController) );
+studentsRouter.get(
+  '/students',
+  ctrlWrapper(getStudentsController),
+);
 
-studentsRouter.post('/students', ctrlWrapper(createStudentController) );
+studentsRouter.get(
+  '/students/:studentId',
+  ctrlWrapper(getStudentByIdController),
+);
 
-studentsRouter.delete('/students/:studentId',validateMongoId, ctrlWrapper(deleteStudentByIdController) );
+studentsRouter.post('/students', ctrlWrapper(createStudentController));
 
-studentsRouter.patch('/students/:studentId', validateMongoId,  ctrlWrapper(patchStudentController) );
+studentsRouter.delete(
+  '/students/:studentId',
+  ctrlWrapper(deleteStudentByIdController),
+);
 
-studentsRouter.put('/students/:studentId',validateMongoId, ctrlWrapper(putStudentController) );
+studentsRouter.patch(
+  '/students/:studentId',
+  ctrlWrapper(patchStudentController),
+);
+
+studentsRouter.put(
+  '/students/:studentId',
+  ctrlWrapper(putStudentController),
+);
 
 export default studentsRouter;

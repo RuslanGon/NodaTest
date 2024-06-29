@@ -1,14 +1,14 @@
 import createHttpError from "http-errors";
-import { Types } from "mongoose";
+import { isValidObjectId } from "mongoose";
 
 
 export const validateMongoId = (idName = 'id') =>  (req, res, next) => {
 const id = req.params[idName];
 if(!id){
-throw new Error('id in validateMongoId is not faund');
+throw new Error('id in validateMongoId is not provides');
 }
 
-if (!Types.ObjectId.isValid(id)) {
+if (!isValidObjectId(id)) {
     return next(createHttpError(400, 'Invalid Id'));
   }
   return next();
