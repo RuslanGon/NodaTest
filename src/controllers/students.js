@@ -11,11 +11,11 @@ export const getStudentsController = async (req, res) => {
     });
 };
 
-export const getStudentByIdController = async (req, res) => {
+export const getStudentByIdController = async (req, res, next) => {
     const id = req.params.studentId;
 
-    if(Types.ObjectId.isValid(id)){
-return next(createHttpError(400, 'Invalid Id'));
+    if (!Types.ObjectId.isValid(id)) {
+      return next(createHttpError(400, 'Invalid Id'));
     }
 
     const student = await getStudentById(id);
