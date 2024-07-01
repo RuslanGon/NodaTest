@@ -1,4 +1,5 @@
 import { createStudent, deleteStudentById, getAllStudents, getStudentById, upsertStudent } from "../services/students.js";
+import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 
 
 export const getStudentsController = async (req, res) => {
