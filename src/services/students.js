@@ -2,15 +2,17 @@ import createHttpError from "http-errors";
 import { Student } from "../db/models/student.js";
 
 const createPaginationInformation = (page, perPage, count) => {
-
+const totalPages =  Math.ceil(count / perPage);
+const hasPreviousPage = page > 1;
+const hasNextPage = page < totalPages;
 
   return {
     page,
     perPage,
     totalItems: count,
     totalPages:
-    hasPreviosPage:
-    hasNextPage:
+    hasPreviousPage,
+    hasNextPage,
   };
 };
 
