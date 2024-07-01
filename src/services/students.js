@@ -1,5 +1,5 @@
-import createHttpError from "http-errors";
-import { Student } from "../db/models/student.js";
+import createHttpError from 'http-errors';
+import { Student } from '../db/models/student.js';
 
 const createPaginationInformation = (page, perPage, count) => {
   const totalPages = Math.ceil(count / perPage);
@@ -16,26 +16,37 @@ const createPaginationInformation = (page, perPage, count) => {
   };
 };
 
-export const getAllStudents = async ({ page = 1, perPage = 5 } = {}) => {
-
+export const getAllStudents = async ({
+  page = 1,
+  perPage = 5,
+  sortBy = '_id',
+  sortOrder = 'asc',
+} = {}) => {
   page = Math.max(page, 1);
   perPage = Math.max(perPage, 1);
 
   const skip = perPage * (page - 1);
 
+
   const [studentsCount, students] = await Promise.all([
     Student.countDocuments(),
-    Student.find().skip(skip).limit(perPage),
+    Student.find().skip(skip).limit(perPage).sort({
+      [sortBy]: sortOrder
+    }),
   ]);
 
-// Проверка, чтобы убедиться, что запрашиваемая страница существует
-if (skip >= studentsCount && studentsCount > 0) {
-  return {
-    error: 'not faund page',
-  };
-}
+  // Проверка, чтобы убедиться, что запрашиваемая страница существует
+  if (skip >= studentsCount && studentsCount > 0) {
+    return {
+      error: 'not faund page',
+    };
+  }
 
-  const paginationInformation = createPaginationInformation(page, perPage, studentsCount);
+  const paginationInformation = createPaginationInformation(
+    page,
+    perPage,
+    studentsCount,
+  );
   return {
     students,
     ...paginationInformation,
@@ -43,8 +54,8 @@ if (skip >= studentsCount && studentsCount > 0) {
 };
 
 export const getStudentById = async (id) => {
-const student = await Student.findById(id);
-if (!student) {
+  const student = await Student.findById(id);
+  if (!student) {
     throw createHttpError(404, 'Student not faund!!!');
   }
   return student;
@@ -53,14 +64,14 @@ if (!student) {
 export const createStudent = async (payload) => {
   const student = await Student.create(payload);
 
-    return student;
+  return student;
 };
 
 export const deleteStudentById = async (studentId) => {
-await Student.findByIdAndDelete(studentId);
+  await Student.findByIdAndDelete(studentId);
 };
 
-export const upsertStudent = async (id, payload, options= {}) => {
+export const upsertStudent = async (id, payload, options = {}) => {
   const rawResult = await Student.findByIdAndUpdate(id, payload, {
     new: true,
     includeResultMetadata: true,
@@ -70,8 +81,8 @@ export const upsertStudent = async (id, payload, options= {}) => {
   if (!rawResult || !rawResult.value) {
     throw createHttpError(404, 'Student not faund!!!');
   }
-  return{
+  return {
     student: rawResult.value,
-    isNew: !rawResult?.lastErrorObject?.updatedExisting
-  } ;
+    isNew: !rawResult?.lastErrorObject?.updatedExisting,
+  };
 };
