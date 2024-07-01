@@ -18,8 +18,11 @@ const hasNextPage = page < totalPages;
 
 export const getAllStudents = async ({ page = 1, perPage = 5}) => {
 const skip = perPage * (page - 1);
-const students = await Student.find().skip(skip).limit(perPage);
-const studetnsCount = await Student.find().countDocuments();
+
+const [studetnsCount, students] = await Promise.all([
+  Student.find().skip(skip).limit(perPage),
+  Student.find().countDocuments(),
+]);
 
 const paginationInformation = createPaginationInformation(page, perPage, studetnsCount);
 return {
