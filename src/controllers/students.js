@@ -3,15 +3,28 @@ import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 
 
 export const getStudentsController = async (req, res) => {
-const { page, perPage } = parsePaginationParams(req.query);
-const { sortBy, sortOrder } = req.query;
+  try {
+    const { page, perPage } = parsePaginationParams(req.query);
+    const { sortBy, sortOrder, gender, avgMark, onDuty } = req.query;
 
-    const students = await getAllStudents({ page, perPage, sortBy, sortOrder });
+    const filter = {};
+    if (gender !== undefined) filter.gender = gender;
+    if (avgMark !== undefined) filter.avgMark = avgMark;
+    if (onDuty !== undefined) filter.onDuty = onDuty;
+
+    const students = await getAllStudents({ page, perPage, sortBy, sortOrder, filter });
     res.json({
       status: 200,
-      message: 'get all students',
+      message: 'Get all students',
       data: students,
     });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: 'Error getting students',
+      error: error.message,
+    });
+  }
 };
 
 export const getStudentByIdController = async (req, res) => {

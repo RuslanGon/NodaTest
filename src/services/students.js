@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors';
 import { Student } from '../db/models/student.js';
 
-const createPaginationInformation = (page, perPage, count) => {
+const createPaginationInformation = (page, perPage, count, filter = {}) => {
   const totalPages = Math.ceil(count / perPage);
   const hasPreviousPage = page > 1;
   const hasNextPage = page < totalPages;
@@ -13,6 +13,7 @@ const createPaginationInformation = (page, perPage, count) => {
     totalPages,
     hasPreviousPage,
     hasNextPage,
+    filter,
   };
 };
 
@@ -21,24 +22,24 @@ export const getAllStudents = async ({
   perPage = 5,
   sortBy = '_id',
   sortOrder = 'asc',
+  filter = {}
 } = {}) => {
   page = Math.max(page, 1);
   perPage = Math.max(perPage, 1);
 
   const skip = perPage * (page - 1);
 
-
   const [studentsCount, students] = await Promise.all([
-    Student.countDocuments(),
-    Student.find().skip(skip).limit(perPage).sort({
-      [sortBy]: sortOrder
+    Student.countDocuments(filter),
+    Student.find(filter).skip(skip).limit(perPage).sort({
+      [sortBy]: sortOrder === 'asc' ? 1 : -1
     }),
   ]);
 
   // Проверка, чтобы убедиться, что запрашиваемая страница существует
   if (skip >= studentsCount && studentsCount > 0) {
     return {
-      error: 'not faund page',
+      error: 'Page not found',
     };
   }
 
@@ -46,6 +47,7 @@ export const getAllStudents = async ({
     page,
     perPage,
     studentsCount,
+    filter
   );
   return {
     students,
