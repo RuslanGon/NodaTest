@@ -2,33 +2,44 @@ import createHttpError from "http-errors";
 import { Student } from "../db/models/student.js";
 
 const createPaginationInformation = (page, perPage, count) => {
-const totalPages =  Math.ceil(count / perPage);
-const hasPreviousPage = page > 1;
-const hasNextPage = page < totalPages;
+  const totalPages = Math.ceil(count / perPage);
+  const hasPreviousPage = page > 1;
+  const hasNextPage = page < totalPages;
 
   return {
     page,
     perPage,
     totalItems: count,
-    totalPages:
+    totalPages,
     hasPreviousPage,
     hasNextPage,
   };
 };
 
-export const getAllStudents = async ({ page = 1, perPage = 5}) => {
-const skip = perPage * (page - 1);
+export const getAllStudents = async ({ page = 1, perPage = 5 } = {}) => {
 
-const [studetnsCount, students] = await Promise.all([
-  Student.find().skip(skip).limit(perPage),
-  Student.find().countDocuments(),
-]);
+  page = Math.max(page, 1);
+  perPage = Math.max(perPage, 1);
 
-const paginationInformation = createPaginationInformation(page, perPage, studetnsCount);
-return {
-  students,
-...paginationInformation
-};
+  const skip = perPage * (page - 1);
+
+  const [studentsCount, students] = await Promise.all([
+    Student.countDocuments(),
+    Student.find().skip(skip).limit(perPage),
+  ]);
+
+// Проверка, чтобы убедиться, что запрашиваемая страница существует
+if (skip >= studentsCount && studentsCount > 0) {
+  return {
+    error: 'not faund page',
+  };
+}
+
+  const paginationInformation = createPaginationInformation(page, perPage, studentsCount);
+  return {
+    students,
+    ...paginationInformation,
+  };
 };
 
 export const getStudentById = async (id) => {
