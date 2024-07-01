@@ -1,7 +1,7 @@
 import createHttpError from "http-errors";
 import { Student } from "../db/models/student.js";
 
-export const createPaginationInformation = (page, perPage, count) => {
+const createPaginationInformation = (page, perPage, count) => {
 
 
   return {
@@ -10,12 +10,20 @@ export const createPaginationInformation = (page, perPage, count) => {
     totalItems: count,
     totalPages:
     hasPreviosPage:
+    hasNextPage:
   };
 };
 
 export const getAllStudents = async ({ page = 1, perPage = 5}) => {
-  const skip = perPage * (page - 1);
-return await Student.find().skip(skip).limit(perPage);
+const skip = perPage * (page - 1);
+const students = await Student.find().skip(skip).limit(perPage);
+const studetnsCount = await Student.find().countDocuments()
+
+const paginationInformation = createPaginationInformation(page, perPage, studetnsCount)
+return {
+  students,
+...paginationInformation
+}
 };
 
 export const getStudentById = async (id) => {
