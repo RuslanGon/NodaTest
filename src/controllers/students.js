@@ -1,4 +1,5 @@
 import { createStudent, deleteStudentById, getAllStudents, getStudentById, upsertStudent } from "../services/students.js";
+import { parseFilters } from "../utils/parseFilters.js";
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 
 
@@ -7,7 +8,7 @@ export const getStudentsController = async (req, res) => {
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder, gender, avgMark, onDuty } = req.query;
 
-    const filter = {};
+    const filter = parseFilters(req.query);
     if (gender !== undefined) filter.gender = gender;
     if (avgMark !== undefined) filter.avgMark = avgMark;
     if (onDuty !== undefined) filter.onDuty = onDuty;
