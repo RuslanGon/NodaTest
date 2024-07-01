@@ -7,7 +7,6 @@ if(Number.isNaN(parseInt)) return;
 return parseInt;
 
 };
-
     return {
          minAge: parseInFilter(query.minAge),
           maxAge:parseInFilter(query.minAge),
