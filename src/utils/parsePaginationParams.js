@@ -4,7 +4,7 @@ if (typeof unknow !== 'string')
 
 const parseNumber = parseInt(unknow);
 if(Number.isNaN(parseNumber)) return defaultNumber;
-
+return parseNumber;
 };
 
 export const parsePaginationParams = (query) => {
