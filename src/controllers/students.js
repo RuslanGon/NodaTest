@@ -2,7 +2,8 @@ import { createStudent, deleteStudentById, getAllStudents, getStudentById, upser
 
 
 export const getStudentsController = async (req, res) => {
-    const students = await getAllStudents();
+const { page, perPage } = parsePaginationParams(req.query);
+    const students = await getAllStudents({ page, perPage });
     res.json({
       status: 200,
       message: 'get all students',
